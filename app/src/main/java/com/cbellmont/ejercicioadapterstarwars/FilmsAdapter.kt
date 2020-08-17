@@ -15,8 +15,8 @@ class FilmsAdapter : RecyclerView.Adapter<FilmsAdapter.FilmsViewHolder>() {
 
     private var films = mutableListOf<Film>()
 
-    fun updateFilms(filmsList: MutableList<Film>) {
-        this.films = filmsList
+    fun addFilmToList(film: Film) {
+        this.films.add(film)
         notifyDataSetChanged()
     }
 

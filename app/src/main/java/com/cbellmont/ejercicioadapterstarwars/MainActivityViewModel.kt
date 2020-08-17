@@ -1,24 +1,29 @@
 package com.cbellmont.ejercicioadapterstarwars
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class MainActivityViewModel  : ViewModel() {
 
     private val films = mutableListOf<Film>()
 
-    suspend fun getFilms(): MutableList<Film> {
-        delay(5000)
+    init {
+        downloadFilms()
+    }
+
+    suspend fun getFilm(position: Int): Film {
+        delay(2000)
         if (films.isEmpty()){
             downloadFilms()
         }
-        return films
+        return films[position]
     }
+
+    fun filmsSize() : Int {
+        return films.size
+    }
+
 
     private fun downloadFilms() {
         films.addAll(

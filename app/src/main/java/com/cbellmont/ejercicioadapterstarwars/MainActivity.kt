@@ -32,21 +32,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun downloadAll(){
         CoroutineScope(Dispatchers.IO).launch {
-            val list = loadFilmInBackground()
-            setTextOnMainThread(list)
+            for (i in 0 until model.filmsSize()) {
+                val film = loadFilmInBackground(i)
+                setTextOnMainThread(film)
+            }
+            hideProgressBar()
         }
+
     }
 
-    private suspend fun loadFilmInBackground() : MutableList<Film>{
+    private suspend fun loadFilmInBackground(position : Int) : Film {
         return withContext(Dispatchers.IO) {
-            return@withContext model.getFilms()
+            return@withContext model.getFilm(position)
         }
     }
 
-    private suspend fun setTextOnMainThread(filmsList: MutableList<Film>) {
+    private suspend fun setTextOnMainThread(filmsList: Film) {
         withContext(Dispatchers.Main) {
-            adapter.updateFilms(filmsList)
-            pbLoading.visibility = View.GONE
+            adapter.addFilmToList(filmsList)
         }
+    }
+
+    private fun hideProgressBar(){
+        pbLoading.visibility = View.GONE
     }
 }
